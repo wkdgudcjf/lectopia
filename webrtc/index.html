@@ -1,0 +1,123 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>Web Conference</title>
+    <meta content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="index.css" type="text/css"></link>
+     
+    <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript" src="wsock.js"></script>
+    <script type="text/javascript" src="model.js"></script>
+    <script type="text/javascript" src="controller.js"></script>
+</head>
+ 
+<body>
+ 
+<div id="div-main">
+    <ol id="ol-tabs" class="toc">
+        <li id="li-join" class="current" onclick="controller.on_select_tab('join')">Main</li>
+        <li id="li-conference" onclick="controller.on_select_tab('conference')">Video Conference</li>
+    </ol>
+     
+    <!-- main tab -->
+     
+    <div id="div-join" class="content has-shadow" style="visibility: visible; overflow: auto;">
+         
+        <div id="join-conf-box" class="content-box">
+            <div class="content-header">Join Existing Web Conference</div>
+            <table>
+                <tr>
+                    <td align="right">Select a conference:</td>
+                    <td>
+                        <select id="join_room" style="width: 130px;"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input id="join-button" type="button" value="Join" class="button"
+                            onclick="controller.action_join_or_leave()" title="join/leave a conference"></input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+ 
+        <div id="create-conf-box" class="content-box">
+            <div class="content-header">Create New Web Conference</div>
+            <table>
+                <tr>
+                    <td align="right">Conference name:</td>
+                    <td>
+                        <input type="text" id="create_room"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input id="create-button" type="button" value="Create" class="button"
+                            onclick="controller.action_create_room()" title="create a new conference and join it"></input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+         
+        <div id="login-box" class="content-box">
+            <div class="content-header">Login</div>
+            <table>
+                <tr>
+                    <td align="right">Your name:</td>
+                    <td>
+                        <input type="text" id="login_name" style="width: 100px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input id="login-button" type="button" value="Login" class="button"
+                               onclick="controller.action_login_out()" title="login/logout"></input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+                 
+        <div id="who-is-online-box" class="content-box">
+            <div class="content-header">Who is Online?</div>
+            <div id="online-user-list"></div>
+        </div>
+    </div>    
+     
+    <!-- conference tab -->
+     
+    <div id="div-conference" class="content has-shadow" style="visibility: hidden;">
+        <div id="user-list-box" class="content-box">
+            <div class="content-header">Participants</div>
+            <div id="user-list">
+                <ul id="participants" class="participants"></ul>
+            </div>
+        </div>
+        <div id="text-chat-box" class="content-box">
+            <div class="content-header">Text Chat</div>
+            <div id="chat-history"></div>
+            <div id="chat-input">
+                <input id="inputText" type="text" style="left: 2px; width: 190px;" autocomplete="off"
+                    title="Type your message here and press enter"
+                    value="Enter your message here"
+                    onclick="if ($('inputText').value == 'Enter your message here') {
+                                $('inputText').value = '';
+                            }"
+                    onkeypress="javascript: if ((event.keyCode || event.which) == 13) {
+                                                controller.action_send_chatmsg($('inputText').value);
+                                                $('inputText').value = ''; 
+                                                return false; 
+                                            }" 
+                > 
+            </div>
+        </div>
+        <div id="videos-box"></div> <!-- don't put any text node in videos-box -->
+    </div>
+</div>    
+ 
+<script type="text/javascript">
+controller.init();
+model.init();
+</script>
+ 
+</body>
+</html>
